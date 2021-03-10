@@ -19,7 +19,7 @@ const RouteWithSubRoutes = (route: IRoute) => {
                 <route.component {...props} routes={route.routes} />
               )
             ) : (
-              <Redirect to={"/login"} />
+              <Redirect to={"/quantum-test"} />
             )
           ) : (
             route.component && (

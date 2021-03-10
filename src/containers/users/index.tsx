@@ -148,10 +148,14 @@ const Users = () => {
 
   const onLogout = () => {
     dispatch(addUserToken(null, ""));
-    history.replace("/");
+    history.replace("/quantum-test");
   };
   return (
-    <div className="flex justify-start items-center flex-col min-h-screen ">
+    <div
+      className={`flex ${
+        isLoading ? "justify-center" : "justify-start"
+      } items-center flex-col min-h-screen`}
+    >
       {isLoading ? (
         <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-28 w-28"></div>
       ) : (
