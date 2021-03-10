@@ -11,8 +11,11 @@ const NoMatch = () => {
           <span className="font-bold">homepage</span>
         </Link>
         , <br />
-        or sit here and email me about this test while listening to a goat
-        scream like a human.
+        or sit here and{" "}
+        <a href="mailto:su.diddo@gmail.com" target="_blank">
+          <span className="font-bold">email me</span>
+        </a>{" "}
+        about this test while listening to a goat scream like a human.
       </div>
       <img src={Goat} />
     </div>
