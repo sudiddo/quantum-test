@@ -1,9 +1,9 @@
 import PostLogin from "api/postLogin";
 import LoginForm from "components/atoms/forms/loginForm";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { StoreStateType } from "store";
+import { Link } from "react-router-dom";
 import { addUserToken } from "store/actions/user";
 
 const Login = () => {
@@ -14,11 +14,6 @@ const Login = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const token = useSelector((state: StoreStateType) => state.user.token);
-
-  if (token) {
-    history.replace("/users");
-  }
 
   const onSubmit = async () => {
     setError("");
@@ -26,7 +21,7 @@ const Login = () => {
     return await PostLogin(email, password).then((result) => {
       setIsLoading(false);
       console.log("result", result);
-      dispatch(addUserToken(result.token));
+      dispatch(addUserToken(result.token, email));
       result.error ? setError(result.error) : setError("");
       history.push("/users");
     });
@@ -39,12 +34,12 @@ const Login = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Log in
           </h2>
-          <p className="mt-2 text-center text-md text-gray-600">
-            {"Don't have an account? "}
-            <a href="#" className="text-blue-500">
-              Sign Up
-            </a>
-          </p>
+          <div className="mt-2 text-center flex flex-row items-center justify-center text-md text-gray-600">
+            Don't have an account?
+            <Link to="/register">
+              <div className="text-blue-500 ml-1">Sign Up</div>
+            </Link>
+          </div>
         </div>
         <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <LoginForm

@@ -3,6 +3,10 @@ import GetUsers, { UserType } from "api/getUsers";
 import PutUser from "api/putUser";
 import Table from "components/molecules/table";
 import { useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { StoreStateType } from "store";
+import { addUserToken } from "store/actions/user";
 
 const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
@@ -12,11 +16,13 @@ const Users = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userId, setUserId] = useState(0);
-  const [editIndex, setEditIndex] = useState(0);
   const [isLoading, setIsloading] = useState(true);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const email = useSelector((state: StoreStateType) => state.user.email);
+
   useEffect(() => {
     GetUsers(1).then((list) => {
-      console.log("list", list);
       setUsers(list.data);
       setTotalPage(list.total_pages);
       setPage(list.page);
@@ -26,7 +32,7 @@ const Users = () => {
 
   const data = useMemo(() => {
     const colData: any[] = [];
-    users.map((user) => {
+    users.forEach((user) => {
       const data = {
         id: user.id,
         image: user.avatar,
@@ -107,7 +113,6 @@ const Users = () => {
     setLastName(user.lastName);
     setUserId(user.id);
     setIsShowEditSection(true);
-    setEditIndex(index);
   };
 
   const onSave = () => {
@@ -115,9 +120,9 @@ const Users = () => {
       const updateUsers = users.map((user) => {
         return { ...user };
       });
-      updateUsers.find((user) => user.id == userId)!.first_name =
+      updateUsers.find((user) => user.id === userId)!.first_name =
         result.first_name;
-      updateUsers.find((user) => user.id == userId)!.last_name =
+      updateUsers.find((user) => user.id === userId)!.last_name =
         result.last_name;
       setUsers(updateUsers);
       setIsShowEditSection(false);
@@ -141,8 +146,12 @@ const Users = () => {
     });
   };
 
+  const onLogout = () => {
+    dispatch(addUserToken(null, ""));
+    history.replace("/");
+  };
   return (
-    <div className="flex justify-center items-center flex-col min-h-screen ">
+    <div className="flex justify-start items-center flex-col min-h-screen ">
       {isLoading ? (
         <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-28 w-28"></div>
       ) : (
@@ -163,6 +172,8 @@ const Users = () => {
           onClose={() => setIsShowEditSection(false)}
           onSave={onSave}
           onDelete={onDelete}
+          onLogout={onLogout}
+          email={email}
         />
       )}
     </div>

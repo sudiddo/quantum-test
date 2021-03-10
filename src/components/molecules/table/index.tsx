@@ -1,3 +1,4 @@
+import { useForm } from "react-hook-form";
 import {
   useGlobalFilter,
   usePagination,
@@ -22,7 +23,11 @@ const Table = ({
   onChangeLastName,
   onClose,
   onDelete,
+  email,
+  onLogout,
 }: any) => {
+  const { register, handleSubmit, errors } = useForm();
+
   const props = useTable(
     {
       columns,
@@ -43,15 +48,23 @@ const Table = ({
   } = props;
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="my-5">
-        Search
-        <input
-          className="border border-black ml-2 rounded-md p-1"
-          type="text"
-          value={globalFilter || ""}
-          onChange={(e) => setGlobalFilter(e.target.value)}
-        />
+    <div className="flex flex-col">
+      <div className="my-5 flex flex-row justify-between">
+        <div>
+          Search
+          <input
+            className="border border-black ml-2 rounded-md p-1"
+            type="text"
+            value={globalFilter || ""}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-row">
+          <div className="font-bold">{email}</div>
+          <div className="text-red-700 ml-3 cursor-pointer" onClick={onLogout}>
+            logout
+          </div>
+        </div>
       </div>
       <table {...getTableProps()} className="border-black border">
         <thead>
@@ -99,7 +112,11 @@ const Table = ({
                     >
                       <div className="flex justify-center items-center">
                         {cell.column.Header === "Profile Image" ? (
-                          <img className="object-contain" src={cell.value} />
+                          <img
+                            alt={cell.value}
+                            className="object-contain"
+                            src={cell.value}
+                          />
                         ) : cell.column.Header === "Options" ? (
                           <div>
                             <div
@@ -130,42 +147,92 @@ const Table = ({
         </tbody>
       </table>
       {isShowEditSection ? (
-        <div className="flex w-full justify-between items-center px-5 border border-black">
-          <div className="flex flex-row">
-            <div className="mr-3">
-              First Name
-              <input
-                className="border w-36 border-black ml-2 rounded-md p-1"
-                type="text"
-                value={firstName}
-                onChange={(e) => onChangeFirstName(e.target.value)}
-              />
-            </div>
-            <div>
-              Last Name
-              <input
-                className="border w-36 border-black ml-2 rounded-md p-1"
-                type="text"
-                value={lastName}
-                onChange={(e) => onChangeLastName(e.target.value)}
-              />
+        <form onSubmit={handleSubmit(onSave)}>
+          <div className="flex w-full flex-col  border border-black">
+            <div className="flex justify-between flex-row items-center px-5 ">
+              <div className="flex flex-row">
+                <div className="mr-3 mt-3 flex flex-col justify-start items-start">
+                  <div className="flex flex-row items-center">
+                    <div>First name</div>
+                    <input
+                      className="border w-36 border-black ml-2 rounded-md p-1"
+                      type="text"
+                      id="first_name"
+                      name="first_name"
+                      value={firstName}
+                      onChange={(e) => onChangeFirstName(e.target.value)}
+                      ref={register({
+                        required: {
+                          value: true,
+                          message: "First name is required",
+                        },
+                        pattern: {
+                          //eslint-disable-next-line
+                          value: /^[A-Z]\S*[^0-9!@#\$%\^\&*\)\(+=._-]$/g,
+                          message:
+                            "Must start with capital, no numeric, no special character, no multi-word",
+                        },
+                      })}
+                    />
+                  </div>
+                  <div className="mt-2">
+                    {errors.first_name && (
+                      <div className="text-red-700 font-bold text-left mb-5 w-64">
+                        {errors.first_name.message}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="mr-3 mt-3 flex flex-col justify-start items-start">
+                  <div className="flex flex-row items-center">
+                    <div>Last name</div>
+                    <input
+                      className="border w-36 border-black ml-2 rounded-md p-1"
+                      type="text"
+                      id="last_name"
+                      name="last_name"
+                      value={lastName}
+                      onChange={(e) => onChangeLastName(e.target.value)}
+                      ref={register({
+                        required: {
+                          value: true,
+                          message: "Last name is required",
+                        },
+                        pattern: {
+                          //eslint-disable-next-line
+                          value: /^[A-Z]\S*[^0-9!@#\$%\^\&*\)\(+=._-]$/g,
+                          message:
+                            "Must start with capital, no numeric, no special character, no multi-word",
+                        },
+                      })}
+                    />
+                  </div>
+                  <div className="mt-2">
+                    {errors.last_name && (
+                      <div className="text-red-700 font-bold text-left mb-5 w-64">
+                        {errors.last_name.message}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center flex-col">
+                <input
+                  type="submit"
+                  className="bg-green-600 px-4 py-1 rounded-md mt-3 cursor-pointer text-white"
+                  value="Save"
+                />
+
+                <div
+                  onClick={onClose}
+                  className="text-red-600 cursor-pointer px-4 my-3"
+                >
+                  Close
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex items-center flex-col">
-            <div
-              onClick={onSave}
-              className="bg-green-600 px-4 py-1 rounded-md mt-3 cursor-pointer text-white"
-            >
-              Save
-            </div>
-            <div
-              onClick={onClose}
-              className="text-red-600 cursor-pointer px-4 my-3"
-            >
-              Close
-            </div>
-          </div>
-        </div>
+        </form>
       ) : null}
       <div className="mt-5 flex border border-black p-1">
         <button
@@ -215,7 +282,7 @@ const Table = ({
           <input
             className="border border-black"
             type="number"
-            defaultValue={page + 1}
+            defaultValue={page}
             onChange={(e) => {
               const page = Number(e.target.value);
               goToPage(page);

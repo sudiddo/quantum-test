@@ -1,7 +1,6 @@
 import Button from "components/atoms/buttons/button";
 import { useForm } from "react-hook-form";
-
-export interface LoginData {
+interface SignUpData {
   email: string;
   password: string;
   onChangeEmail: (value: string) => void;
@@ -10,7 +9,7 @@ export interface LoginData {
   isLoading: boolean;
   onSubmit: () => void;
 }
-const LoginForm = ({
+const SignUpForm = ({
   error,
   onSubmit,
   isLoading,
@@ -18,12 +17,12 @@ const LoginForm = ({
   email,
   onChangeEmail,
   onChangePassword,
-}: LoginData) => {
+}: SignUpData) => {
   const { register, errors, handleSubmit } = useForm();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-md">
+      <div className="mt-6">
         <label
           htmlFor="email"
           className="block text-sm font-medium leading-5 text-gray-700"
@@ -85,7 +84,7 @@ const LoginForm = ({
         </div>
       </div>
       <div className="mt-4">
-        <Button title="Login" type="submit" isLoading={isLoading} />
+        <Button title="Register" type="submit" isLoading={isLoading} />
 
         {error !== "" && (
           <div className="my-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
@@ -96,4 +95,4 @@ const LoginForm = ({
     </form>
   );
 };
-export default LoginForm;
+export default SignUpForm;

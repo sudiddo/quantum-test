@@ -2,6 +2,7 @@ import { UserActionTypes, UserStateType } from "store/types";
 
 const initialState: UserStateType = {
   token: null,
+  email: "",
 };
 
 export function userReducer(state = initialState, action: UserActionTypes) {
@@ -10,6 +11,7 @@ export function userReducer(state = initialState, action: UserActionTypes) {
       return {
         ...state,
         token: action.payload.token,
+        email: action.payload.email,
       };
     default:
       return state;

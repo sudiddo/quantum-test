@@ -26,6 +26,12 @@ export const routes: IRoute[] = [
     fallback: <Fallback />,
   },
   {
+    path: "/register",
+    exact: true,
+    component: lazy(() => import("containers/register")),
+    fallback: <Fallback />,
+  },
+  {
     path: "/users",
     exact: true,
     private: true,

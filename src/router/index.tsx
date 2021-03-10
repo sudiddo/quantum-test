@@ -1,7 +1,8 @@
 import React from "react";
-import { Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import RouteWithSubRoutes from "./routeWithSubRoutes";
 import { IRoute } from "./config";
+import NoMatch from "containers/noMatch";
 
 interface IProps {
   routes: IRoute[];
@@ -14,6 +15,9 @@ const Router: React.FC<IProps> = ({ routes }) => {
         routes.map((route: IRoute) => (
           <RouteWithSubRoutes key={route.path} {...route} />
         ))}
+      <Route path="*">
+        <NoMatch />
+      </Route>
     </Switch>
   );
 };
