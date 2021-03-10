@@ -7,7 +7,7 @@ const NoMatch = () => {
       <div className="text-4xl ">Ahhhhhhhhhhhhhh, this page doesn't exist</div>
       <div className="text-center mt-5 mb-16">
         Don't worry. You can either head back to the{" "}
-        <Link to="/quantum-test">
+        <Link to="/">
           <span className="font-bold">homepage</span>
         </Link>
         , <br />

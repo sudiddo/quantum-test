@@ -30,7 +30,7 @@ const SignUpPage = () => {
           </h2>
           <div className="mt-2 text-center flex flex-row justify-center text-md text-gray-600">
             already have an account?
-            <Link to="/quantum-test">
+            <Link to="/">
               <p className="text-blue-500 ml-1">Log in</p>
             </Link>
           </div>
@@ -50,7 +50,7 @@ const SignUpPage = () => {
           <div className="mt-5 text-center">
             Register success,{" "}
             <span className="font-bold cursor-pointer">
-              <Link to="/quantum-test">click here to login!</Link>
+              <Link to="/">click here to login!</Link>
             </span>
           </div>
         ) : null}

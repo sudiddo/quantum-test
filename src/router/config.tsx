@@ -20,26 +20,26 @@ export interface IRoute {
 
 export const routes: IRoute[] = [
   {
-    path: "/quantum-test",
+    path: "/",
     exact: true,
     component: lazy(() => import("containers/login")),
     fallback: <Fallback />,
   },
   {
-    path: "/quantum-test/register",
+    path: "/register",
     exact: true,
     component: lazy(() => import("containers/register")),
     fallback: <Fallback />,
   },
   {
-    path: "/quantum-test/users",
+    path: "/users",
     exact: true,
     private: true,
     component: lazy(() => import("containers/users")),
     fallback: <Fallback />,
   },
   {
-    path: "/quantum-test/*",
+    path: "/*",
     exact: false,
     component: lazy(() => import("containers/noMatch")),
     fallback: <Fallback />,

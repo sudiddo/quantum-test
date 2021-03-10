@@ -148,7 +148,7 @@ const Users = () => {
 
   const onLogout = () => {
     dispatch(addUserToken(null, ""));
-    history.replace("/quantum-test");
+    history.replace("/");
   };
   return (
     <div

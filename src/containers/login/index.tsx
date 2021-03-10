@@ -23,7 +23,7 @@ const Login = () => {
       console.log("result", result);
       dispatch(addUserToken(result.token, email));
       result.error ? setError(result.error) : setError("");
-      history.push("/quantum-test/users");
+      history.push("/users");
     });
   };
 
@@ -36,7 +36,7 @@ const Login = () => {
           </h2>
           <div className="mt-2 text-center flex flex-row items-center justify-center text-md text-gray-600">
             Don't have an account?
-            <Link to="/quantum-test/register">
+            <Link to="/register">
               <div className="text-blue-500 ml-1">Sign Up</div>
             </Link>
           </div>
